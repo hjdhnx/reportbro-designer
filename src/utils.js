@@ -282,8 +282,8 @@ export function readImageData(file, loadCallback, rb) {
             canvas.width = img.width;
             canvas.height = img.height;
             ctx.drawImage(img, 0, 0, img.width, img.height);
-            let imageData = canvas.toDataURL('image/webp');
-            if (imageData.substring(0, 15) !== 'data:image/webp') {
+            let imageData = canvas.toDataURL('image/png');
+            if (imageData.substring(0, 15) !== 'data:image/png') {
                 if (rb.getProperty('imageRequireWebPFormat')) {
                     imageData = null;
                     alert(rb.getLabel('docElementLoadImageWebPErrorMsg'));
