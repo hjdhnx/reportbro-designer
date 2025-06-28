@@ -1,3 +1,5 @@
+[English](README.md) | [简体中文](README_cn.md)
+
 # ReportBro Designer（报表设计器）
 
 一个用于创建 PDF 和 XLSX 报表模板的 JavaScript 插件。

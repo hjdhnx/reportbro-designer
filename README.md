@@ -1,3 +1,5 @@
+[English](README.md) | [简体中文](README_cn.md)
+
 # ReportBro Designer
 
 A javascript plugin to create PDF and XLSX report templates.
