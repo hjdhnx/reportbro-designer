@@ -1,0 +1,39 @@
+# Node
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDEs
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+
+# Others
+tmp/
+*.log
+*.tmp
+*.swp
+
+# Build
+build/
+coverage/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache 
