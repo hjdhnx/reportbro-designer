@@ -116,6 +116,14 @@ export default class DocumentPropertiesPanel extends PanelBase {
         super.initVisibleIfFields();
     }
 
+    trigger_change (id, value){
+        $(`#${id}`).val(value);
+        const changeEvent = new Event('change', { bubbles: true });
+        const $input = document.getElementById(id);
+        $input.dispatchEvent(changeEvent);
+        $input.blur(); // 模拟离开
+    }
+
     render(data) {
         let panel = utils.createElement('div', { id: 'rbro_document_properties_panel', class: 'rbroHidden' });
         let elDiv = utils.createElement('div', { id: 'rbro_document_properties_page_row', class: 'rbroFormRow' });
@@ -138,10 +146,29 @@ export default class DocumentPropertiesPanel extends PanelBase {
         elPageFormat.addEventListener('change', (event) => {
             let selectedObject = this.rb.getSelectedObject();
             if (selectedObject !== null) {
+                let pageFormat = elPageFormat.value || 'user_defined';
+                const isExtraPageFormat = !['a4','a5','letter','user_defined'].includes(elPageFormat.value.toLowerCase());
+                if(isExtraPageFormat){
+                    pageFormat = 'user_defined';
+                }
                 let cmd = new SetValueCmd(
                     selectedObject.getId(), 'pageFormat', elPageFormat.value,
                     SetValueCmd.type.select, this.rb);
                 this.rb.executeCommand(cmd);
+                if(isExtraPageFormat){
+                    const docProperties = this.rb.getDocumentProperties();
+                    const size = docProperties.getPageSize(true);
+                    // this.updatePageSize(size.width, size.height);
+                    let cmd = new SetValueCmd(
+                        selectedObject.getId(), 'pageFormat', pageFormat,
+                        SetValueCmd.type.select, this.rb);
+                    this.rb.executeCommand(cmd);
+                    this.trigger_change('rbro_document_properties_page_width', size.width);
+                    this.trigger_change('rbro_document_properties_page_height', size.height);
+                    this.trigger_change('rbro_document_properties_unit', 'mm'); 
+                    this.trigger_change('rbro_document_properties_orientation', 'portrait');
+                    // this.trigger_change('rbro_document_properties_orientation', 'landscape');
+                }
             }
         });
         elFormField.append(elPageFormat);

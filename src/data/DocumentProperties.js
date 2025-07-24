@@ -201,11 +201,12 @@ export default class DocumentProperties {
      * Returns page size in pixels at 72 dpi.
      * @returns {Object} width, height
      */
-    getPageSize() {
+    getPageSize(originalPageFormat) {
         let pageWidth;
         let pageHeight;
         let unit;
         let dpi = 72;
+        originalPageFormat = originalPageFormat || false;
         if (this.pageFormat === DocumentProperties.pageFormat.A4) {
             if (this.orientation === DocumentProperties.orientation.portrait) {
                 pageWidth = 210;
@@ -314,12 +315,14 @@ export default class DocumentProperties {
             pageHeight = utils.convertInputToNumber(this.pageHeight);
             unit = this.unit;
         }
-        if (unit === DocumentProperties.unit.mm) {
-            pageWidth = Math.round((dpi * pageWidth) / 25.4);
-            pageHeight = Math.round((dpi * pageHeight) / 25.4);
-        } else {
-            pageWidth = Math.round(dpi * pageWidth);
-            pageHeight = Math.round(dpi * pageHeight);
+        if(!originalPageFormat){
+            if (unit === DocumentProperties.unit.mm) {
+                pageWidth = Math.round((dpi * pageWidth) / 25.4);
+                pageHeight = Math.round((dpi * pageHeight) / 25.4);
+            } else {
+                pageWidth = Math.round(dpi * pageWidth);
+                pageHeight = Math.round(dpi * pageHeight);
+            }
         }
         if (this.contentHeight.trim() !== '') {
             pageHeight = utils.convertInputToNumber(this.contentHeight) +
